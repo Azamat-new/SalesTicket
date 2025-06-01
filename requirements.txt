@@ -1,0 +1,6 @@
+asgiref==3.8.1
+Django==5.2.1
+pillow==11.2.1
+signals==0.0.2
+sqlparse==0.5.3
+users==1.0.dev0

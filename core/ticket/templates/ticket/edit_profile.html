@@ -1,0 +1,137 @@
+{% extends 'ticket/base.html' %}
+{% load static %}
+
+{% block head %}
+<style>
+    .profile-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .profile-card-header {
+        background: linear-gradient(135deg, #007bff, #00c6ff);
+        color: white;
+        padding: 20px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        text-align: center;
+    }
+
+    .profile-card-body {
+        padding: 30px;
+        background-color: #fff;
+    }
+
+    .form-label {
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    .form-control {
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-size: 16px;
+    }
+
+    .avatar-preview {
+        display: block;
+        margin: 0 auto 20px;
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-custom {
+        border-radius: 12px;
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .btn-save {
+        background-color: #28a745;
+        color: white;
+        border: none;
+    }
+
+    .btn-save:hover {
+        background-color: #218838;
+    }
+
+    .btn-cancel {
+        background-color: transparent;
+        color: #6c757d;
+        border: 1px solid #6c757d;
+    }
+
+    .btn-cancel:hover {
+        background-color: #f8f9fa;
+    }
+
+    .message-box {
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card profile-card">
+                <div class="profile-card-header">
+                    <h3>Редактировать профиль</h3>
+                </div>
+                <div class="profile-card-body">
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Avatar -->
+                        <div class="text-center">
+                            {% if form.instance.avatar %}
+                                <img src="{{ form.instance.avatar.url }}" alt="Avatar" class="avatar-preview">
+                            {% else %}
+                                <img src="{% static 'default_avatar.png' %}" alt="Avatar" class="avatar-preview">
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.avatar.label }}</label>
+                            {{ form.avatar }}
+                        </div>
+
+                        <!-- Bio -->
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.bio.label }}</label>
+                            {{ form.bio|safe }}
+                        </div>
+
+                        <!-- Birth Date -->
+                        <div class="mb-4">
+                            <label class="form-label">{{ form.birth_date.label }}</label>
+                            {{ form.birth_date }}
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-save btn-custom">💾 Сохранить</button>
+                            <a href="{% url 'profile' %}" class="btn btn-cancel btn-custom">Отмена</a>
+                        </div>
+
+                        {% if messages %}
+                        <div class="message-box">
+                            {% for message in messages %}
+                                <div class="alert alert-info mt-3">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

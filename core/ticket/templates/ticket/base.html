@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}SalesTicket{% endblock %}</title>
+      {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+<nav>
+  {% if user.is_authenticated %}
+    Привет, {{ user.username }} |
+    <a href="{% url 'logout' %}">Выйти</a> |
+    <a href="{% url 'profile' %}">Профиль</a>
+  {% else %}
+    <a href="{% url 'login' %}">Войти</a> |
+    <a href="{% url 'register' %}">Регистрация</a>
+  {% endif %}
+</nav>
+
+<hr>
+
+<div class="container">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>
+
+
