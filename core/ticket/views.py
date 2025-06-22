@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegisterForm, ReviewForm
-from .models import Ticket, Purchase, Review
+from .models import Ticket, Purchase, Review, Favorite
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -112,8 +112,27 @@ def ticket_detail(request, ticket_id):
         'already_bought': already_bought,
         'can_review': can_review,
         'reviews': reviews,
-        'form': form
+        'form': form,
+        'is_favorite': Favorite.objects.filter(user=request.user, ticket=ticket).exists()
     })
+
+
+@login_required
+def toggle_favorite(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    fav, created = Favorite.objects.get_or_create(user=request.user, ticket=ticket)
+    if not created:
+        fav.delete()
+        messages.info(request, 'Удалено из избранного')
+    else:
+        messages.success(request, 'Добавлено в избранное')
+    return redirect('ticket_detail', ticket_id=ticket_id)
+
+
+@login_required
+def favorites_list(request):
+    favorites = Favorite.objects.filter(user=request.user).select_related('ticket')
+    return render(request, 'ticket/favorites.html', {'favorites': favorites})
 
 
 
