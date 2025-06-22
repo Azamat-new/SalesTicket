@@ -1,0 +1,15 @@
+{% extends 'ticket/base.html' %}
+{% block title %}Избранные{% endblock %}
+{% block content %}
+<h2>Избранные билеты</h2>
+<ul>
+  {% for fav in favorites %}
+  <li>
+    <a href="{% url 'ticket_detail' fav.ticket.id %}">{{ fav.ticket.title }}</a>
+    ({{ fav.ticket.date }}, {{ fav.ticket.price }} сом)
+  </li>
+  {% empty %}
+  <p>Список избранного пуст.</p>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -40,6 +40,18 @@ class Review(models.Model):
         return f"{self.user.username} о {self.ticket.title}: {self.rating}★"
 
 
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'ticket')
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.ticket.title}"
+
+
 
 
 

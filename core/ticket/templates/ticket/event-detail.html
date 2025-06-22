@@ -266,6 +266,11 @@ https://templatemo.com/tm-587-tiya-golf-club
                                           {% else %}
                                             <a href="{% url 'buy_ticket' ticket.id %}" class="btn btn-success">Купить билет</a>
                                           {% endif %}
+                                            {% if is_favorite %}
+                                            <a href="{% url 'toggle_favorite' ticket.id %}" class="btn btn-warning mt-2">Убрать из избранного</a>
+                                            {% else %}
+                                            <a href="{% url 'toggle_favorite' ticket.id %}" class="btn btn-warning mt-2">Добавить в избранное</a>
+                                            {% endif %}
                                         {% else %}
                                           <p><a href="{% url 'login' %}">Войдите</a>, чтобы купить билет.</p>
                                         {% endif %}

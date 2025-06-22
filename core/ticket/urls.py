@@ -14,7 +14,9 @@ urlpatterns = [
     # path('index/', views.get_ticket, name='ticket'),
     path('ticket/<int:ticket_id>/', views.ticket_detail, name='ticket_detail'),
     path('buy/<int:ticket_id>/', views.buy_ticket, name='buy_ticket'),
-    path('my-tickets/', views.my_tickets, name='my_tickets')
+    path('my-tickets/', views.my_tickets, name='my_tickets'),
+    path('favorite/<int:ticket_id>/', views.toggle_favorite, name='toggle_favorite'),
+    path('favorites/', views.favorites_list, name='favorites_list'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
